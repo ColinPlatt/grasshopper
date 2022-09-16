@@ -1,5 +1,6 @@
 Grasshopper - Moving factory architecture 
 
+------- !!!!!!THIS CONTRACT HAS BEEN DEVELOPED FOR RESEARCH AND EXPERIMENTATION PURPOSES ONLY AND SHOULD NOT BE COMMITTED TO A PUBLIC BLOCKCHAIN!!!!!! -----
 
 Motivation:
 Censorship resistance is a core motivation behind using blockchains and Ethereum. Recent actions by regulatory bodies have demonstrated that, despite the distributed nature of Ethereum and Ethereum based networks, censorship is still a concern. The ability to pinpoint specific resting addresses with undesirable features, and potentially enforce real world retalitory measures on wallets, addresses and tokens that interact with or pass through these addresses proves that the current pattern may not be sufficient for all use cases. 
@@ -24,7 +25,7 @@ Withdrawal - 327k
 
 
 To think about:
-[ ] ensuring privacy and link breaking between deposit and withdrawl
+[ ] ensuring privacy and link breaking between deposit and withdrawal
 [ ] ensuring merkletree cannot be gamed
 [ ] gas usage
 [ ] finding the latest deployment
