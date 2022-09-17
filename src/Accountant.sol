@@ -30,8 +30,11 @@ contract Accountant {
         newLocation = CREATE3.deploy(
             newCommitmentHash,
             abi.encodePacked(depCode, abi.encode(newCommitmentHash, nullifierHash, depHash)),
-            address(this).balance + msg.value
+            0
         );
+
+        (bool success, ) = payable(newLocation).call{ value: (address(this).balance) }("");
+        require(success, "payment to newLocation did not go thru");
 
         invalidated = true;
         
@@ -39,7 +42,7 @@ contract Accountant {
     }
 
     function _verifyNullifer(bytes32[] calldata proofs, bytes32 _newNullifier) public view returns (bool success, bytes32 newNullifierHash) {
-        uint len = proofs.length;
+        uint256 len = proofs.length;
         
         //will need to expose this to a variable to control deposits
         require(len < 256, "EXCEEDS MAX SIZE");
@@ -107,9 +110,13 @@ contract Accountant {
         emit Withdrawal(newLocation, _recipient, _newNullifier);
 
     }
+
+    receive() external payable {
+        require(!invalidated, "NOT LATEST CONTRACT");
+    }
     
 
-    constructor(bytes32 _commitmentHash, bytes32 _nullifierHash, bytes32 _depHash){
+    constructor(bytes32 _commitmentHash, bytes32 _nullifierHash, bytes32 _depHash) {
         commitmentHash = _commitmentHash;
         nullifierHash = _nullifierHash;
         depHash = _depHash;
