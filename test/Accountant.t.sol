@@ -9,30 +9,23 @@ contract AccountantTest is Test {
 
     Accountant hopper;
 
-    function setUp() public {
+    function setUp() public logs_gas {
 
         bytes32[] memory initialProofs = new bytes32[](0);       
 
         hopper = new Accountant(keccak256(abi.encode(initialProofs)),0,keccak256(type(Accountant).creationCode));
     }
 
-    function testSetup() public {
+    function testFirstIteration() public {
 
-        emit log_address(address(hopper));
-
-        emit log_uint(uint256(type(Accountant).creationCode.length));
+        vm.deal(msg.sender, 100 ether);
 
         bytes32 commitment = keccak256(abi.encode("Lets commit"));
 
         bytes memory accCreationCode = type(Accountant).creationCode;
 
-        vm.deal(msg.sender, 100 ether);
 
         address newHopper = hopper.deposit{value: 1 ether}(commitment, accCreationCode);
-
-        emit log_address(address(newHopper));
-
-        emit log_uint(address(newHopper).balance);
 
     }
 

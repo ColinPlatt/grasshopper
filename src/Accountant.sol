@@ -30,11 +30,8 @@ contract Accountant {
         newLocation = CREATE3.deploy(
             newCommitmentHash,
             abi.encodePacked(depCode, abi.encode(newCommitmentHash, nullifierHash, depHash)),
-            0
+            address(this).balance
         );
-
-        (bool success, ) = payable(newLocation).call{ value: (address(this).balance) }("");
-        require(success, "payment to newLocation did not go thru");
 
         invalidated = true;
         
@@ -111,12 +108,7 @@ contract Accountant {
 
     }
 
-    receive() external payable {
-        require(!invalidated, "NOT LATEST CONTRACT");
-    }
-    
-
-    constructor(bytes32 _commitmentHash, bytes32 _nullifierHash, bytes32 _depHash) {
+    constructor(bytes32 _commitmentHash, bytes32 _nullifierHash, bytes32 _depHash) payable {
         commitmentHash = _commitmentHash;
         nullifierHash = _nullifierHash;
         depHash = _depHash;
